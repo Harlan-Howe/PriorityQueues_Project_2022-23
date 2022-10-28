@@ -1,8 +1,9 @@
 import unittest
 from PriorityQueueFile import PriorityQueue
 
+
 class MyTestCase(unittest.TestCase):
-    def test_heapifyDown_1(self):
+    def test_heapify_Down_1(self):
         """
         checks whether a single-step heapify down works.
         :return:
@@ -10,58 +11,67 @@ class MyTestCase(unittest.TestCase):
         items = [[0, 1], [1, 2], [4, 5], [6, 11], [7, 13], [8, 17], [5, 7], [9, 19], [2, 3]]
         expected = [[0, 1], [1, 2], [4, 5], [2, 3], [7, 13], [8, 17], [5, 7], [9, 19], [6, 11]]
 
+        pq: PriorityQueue[int] = PriorityQueue[int](tree=items, isMinHeap=True)
 
-        pq: PriorityQueue[int] = PriorityQueue[int](tree=items, isMinHeap = True)
-
-
-        self.assertFalse(pq.is_a_heap(),"This tree should not start as a heap!")
+        self.assertFalse(pq.is_a_heap(), "This tree should not start as a heap!")
         pq.heapify_down(index=3)
-        self.assertEqual(expected,pq.my_tree, "Result did not match expected value.")
+        self.assertEqual(expected, pq.my_tree, "Result did not match expected value.")
 
-    def test_heapifyDown_2(self):
+    def test_heapify_Down_2(self):
         """
         tests whether a choice between two equal priority children is handled correctly.
         :return:
         """
         items = [[2, 'Happy'], [11, 'Dopey'], [5, 'Sneezy'], [7, 'Grumpy'], [7, 'Sleepy'], [8, 'Doc'], [6, 'Bashful']]
-        distractor = [[2, 'Happy'], [7, 'Sleepy'], [5, 'Sneezy'], [7, 'Grumpy'], [11, 'Dopey'], [8, 'Doc'], [6, 'Bashful']]
-        expected = [[2, 'Happy'], [7, 'Grumpy'], [5, 'Sneezy'], [11, 'Dopey'], [7, 'Sleepy'], [8, 'Doc'], [6, 'Bashful']]
+        distractor = [[2, 'Happy'], [7, 'Sleepy'], [5, 'Sneezy'], [7, 'Grumpy'], [11, 'Dopey'], [8, 'Doc'],
+                      [6, 'Bashful']]
+        expected = [[2, 'Happy'], [7, 'Grumpy'], [5, 'Sneezy'], [11, 'Dopey'], [7, 'Sleepy'], [8, 'Doc'],
+                    [6, 'Bashful']]
 
-        pq:PriorityQueue[str] = PriorityQueue[str](tree = items, isMinHeap = True)
+        pq: PriorityQueue[str] = PriorityQueue[str](tree=items, isMinHeap=True)
 
-        self.assertFalse(pq.is_a_heap(),"This should not start off as a heap.")
+        self.assertFalse(pq.is_a_heap(), "This should not start off as a heap.")
         pq.heapify_down(index=1)
-        self.assertTrue(pq.is_a_heap(),"The heapify down should have turned this into a heap.")
-        self.assertNotEqual(distractor,pq.my_tree,"Although the queue is a heap, when confronted with the need to swap with one of two equal children, the choice should be to swap left.")
+        self.assertTrue(pq.is_a_heap(), "The heapify down should have turned this into a heap.")
+        self.assertNotEqual(distractor, pq.my_tree,
+                            "Although the queue is a heap, when confronted with the need to swap with one of two "
+                            "equal children, the choice should be to swap left.")
 
-        self.assertEqual(expected,pq.my_tree,"When confronted with the need to swap with one of two equal children, the choice should be to swap left.")
+        self.assertEqual(expected, pq.my_tree,
+                         "When confronted with the need to swap with one of two equal children, the choice should be "
+                         "to swap left.")
 
     def test_heapify_Down_3(self):
         """
         tests whether a single child and parent of equal priority will be swapped.
         :return:
         """
-        items = [[1,"A"],[1,"B"],[1,"C"],[1,"D"],[0,"E"],[1,"F"],[1,"G"],[0,"H"],[0,"I"],[0,"J"],[0,"K"]]
+        items = [[1, "A"], [1, "B"], [1, "C"], [1, "D"], [0, "E"], [1, "F"], [1, "G"], [0, "H"], [0, "I"], [0, "J"],
+                 [0, "K"]]
 
-        pq:PriorityQueue[str] = PriorityQueue[str](tree=items, isMinHeap = False)
+        pq: PriorityQueue[str] = PriorityQueue[str](tree=items, isMinHeap=False)
 
         pq.heapify_down(4)
-        self.assertEqual(items,pq.my_tree, "heapifying down between a parent and one child with same priority should not change anything.")
+        self.assertEqual(items, pq.my_tree,
+                         "heapifying down between a parent and one child with same priority should not change "
+                         "anything.")
 
     def test_heapify_Down_4(self):
         """
         tests whether 2 children and parent of equal priority will be swapped.
         :return:
         """
-        items = [[1,"A"],[1,"B"],[1,"C"],[1,"D"],[1,"E"],[1,"F"],[1,"G"],[1,"H"],[1,"I"],[1,"J"],[1,"K"]]
+        items = [[1, "A"], [1, "B"], [1, "C"], [1, "D"], [1, "E"], [1, "F"], [1, "G"], [1, "H"], [1, "I"], [1, "J"],
+                 [1, "K"]]
 
-        pq:PriorityQueue[str] = PriorityQueue[str](tree=items, isMinHeap = False)
+        pq: PriorityQueue[str] = PriorityQueue[str](tree=items, isMinHeap=False)
 
         pq.heapify_down(4)
-        self.assertEqual(items,pq.my_tree, "heapifying down between a parent and two children all with same priority should not change anything.")
+        self.assertEqual(items, pq.my_tree,
+                         "heapifying down between a parent and two children all with same priority should not change "
+                         "anything.")
 
-
-    def test_heapifyDown_5(self):
+    def test_heapify_Down_5(self):
         """
         checks wether a heapify down from the root for a multistage tree works.
         :return:
@@ -82,38 +92,57 @@ class MyTestCase(unittest.TestCase):
                     [18, 'LA'], [9, 'NH'], [39, 'ND'], [8, 'SC'], [20, 'MS'], [19, 'IN'], [43, 'ID'], [2, 'PA'],
                     [14, 'VT'], [11, 'NY']]
 
-        pq: PriorityQueue[str] = PriorityQueue[str](tree = items, isMinHeap=False)
+        pq: PriorityQueue[str] = PriorityQueue[str](tree=items, isMinHeap=False)
 
         # print(pq.to_color_string())
-        self.assertFalse(pq.is_a_heap(),"The queue should not initially show up as a heap!")
+        self.assertFalse(pq.is_a_heap(), "The queue should not initially show up as a heap!")
         pq.heapify_down(index=0)
-        self.assertTrue(pq.is_a_heap(),"The queue should become a heap.")
-        self.assertEqual(pq.my_tree,expected,"The tree did not wind up with the correct order.")
+        self.assertTrue(pq.is_a_heap(), "The queue should become a heap.")
+        self.assertEqual(pq.my_tree, expected, "The tree did not wind up with the correct order.")
 
-
-    def test_heapifyDown_6(self):
-        pq:PriorityQueue[str] = PriorityQueue[str](isMinHeap=True)
+    def test_heapify_Down_6(self):
+        pq: PriorityQueue[str] = PriorityQueue[str](isMinHeap=True)
         items = [[0, "AB"], [7, "CD"], [3, "EF"], [4, "GH"], [8, "IJ"], [10, "KL"], [5, "MN"], [13, "OP"], [6, "QR"],
-                 [12, "ST"], \
-                 [2, "UV"], [1, "WX"], [9, "YZ"]]
-        itemsAfterPop = [[1, 'WX'], [2, 'UV'], [3, 'EF'], [6, 'QR'], [4, 'GH'], [9, 'YZ'], [5, 'MN'], [13, 'OP'], \
-                         [7, 'CD'], [12, 'ST'], [8, 'IJ'], [10, 'KL']]
-        itemsAfterPop2 = [[2, 'UV'], [4, 'GH'], [3, 'EF'], [6, 'QR'], [8, 'IJ'], [9, 'YZ'], [5, 'MN'], [13, 'OP'], \
-                          [7, 'CD'], [12, 'ST'], [10, 'KL']]
-        expected_sorted = [[2, 'UV'], [3, 'EF'], [4, 'GH'], [5, 'MN'], [6, 'QR'], [7, 'CD'], [8, 'IJ'], [9, 'YZ'], [10, 'KL'], [12, 'ST'], [13, 'OP']]
+                 [12, "ST"], [2, "UV"], [1, "WX"], [9, "YZ"]]
+        items_after_pop = [[1, 'WX'], [2, 'UV'], [3, 'EF'], [6, 'QR'], [4, 'GH'], [9, 'YZ'], [5, 'MN'], [13, 'OP'],
+                           [7, 'CD'], [12, 'ST'], [8, 'IJ'], [10, 'KL']]
+        items_after_pop2 = [[2, 'UV'], [4, 'GH'], [3, 'EF'], [6, 'QR'], [8, 'IJ'], [9, 'YZ'], [5, 'MN'], [13, 'OP'],
+                            [7, 'CD'], [12, 'ST'], [10, 'KL']]
+        expected_sorted = [[2, 'UV'], [3, 'EF'], [4, 'GH'], [5, 'MN'], [6, 'QR'], [7, 'CD'], [8, 'IJ'], [9, 'YZ'],
+                           [10, 'KL'], [12, 'ST'], [13, 'OP']]
 
         for item in items:
             pq.add_value(value=item[1], priority=item[0])
 
-        sorted = []
-        self.assertEqual(pq.pop(), [0, "AB"], "Failed to pop smallest priority item from minHeap.")
-        self.assertEqual(pq.my_tree, itemsAfterPop, "myTree is no longer a min heap.")
-        self.assertEqual(pq.pop(), [1, "WX"], "Failed to pop second smallest priority item from minHeap.")
-        self.assertEqual(pq.my_tree, itemsAfterPop2, "myTree is no longer a min heap after second pop.")
+        sorted_items = []
+        self.assertEqual([0, "AB"], pq.pop(), "Failed to pop smallest priority item from minHeap.")
+        self.assertEqual(items_after_pop, pq.my_tree, "myTree is no longer a min heap.")
+        self.assertEqual([1, "WX"], pq.pop(), "Failed to pop second smallest priority item from minHeap.")
+        self.assertEqual(items_after_pop2, pq.my_tree, "myTree is no longer a min heap after second pop.")
         while not pq.is_empty():
-            sorted.append(pq.pop())
+            sorted_items.append(pq.pop())
 
-        self.assertEqual(sorted, expected_sorted, f"Items were not removed in correct order.\n{expected_sorted = }\n{         sorted = }")
+        self.assertEqual(expected_sorted, sorted_items,
+                         f"Items were not removed in correct order.\n{expected_sorted = }\n{         sorted_items = }")
+
+    def test_heapify_Down_7(self):
+        """
+        tests whether heapify down works correctly with a heap of an even number of items and we are heapifying down to
+        the right....
+        :return:
+        """
+        items = [[6, 'Jrnl'], [2, 'Dance'], [1, 'Choir'], [9, 'Theat'], [5, 'Photo'], [7, 'Film'], [3, 'Ceram'],
+                 [13, 'Orch'], [11, 'ChTh'], [14, 'MxMd'], [8, 'DrwPt'], [10, 'Tech'], [12, 'Sclp'], [4, 'Band']]
+
+        expected = [[1, 'Choir'], [2, 'Dance'], [3, 'Ceram'], [9, 'Theat'], [5, 'Photo'], [7, 'Film'], [4, 'Band'],
+                    [13, 'Orch'], [11, 'ChTh'], [14, 'MxMd'], [8, 'DrwPt'], [10, 'Tech'], [12, 'Sclp'], [6, 'Jrnl']]
+
+        pq: PriorityQueue[str] = PriorityQueue[str](tree=items, isMinHeap=True)
+
+        pq.heapify_down(index=0)
+        self.assertEqual(expected, pq.my_tree,
+                         "Heapify_down for a heap with an even number of nodes where we heapify mostly to the right")
+
 
 if __name__ == '__main__':
     unittest.main()
